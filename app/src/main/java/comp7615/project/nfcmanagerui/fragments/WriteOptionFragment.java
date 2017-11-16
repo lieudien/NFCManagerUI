@@ -1,66 +1,69 @@
-package comp7615.project.nfcmanagerui;
+package comp7615.project.nfcmanagerui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import comp7615.project.nfcmanagerui.R;
+import comp7615.project.nfcmanagerui.activities.MapsActivity;
+
 
 /**
- * A fragment with a Google +1 button.
+ * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ReadFragment.OnFragmentInteractionListener} interface
+ * {@link WriteOptionFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ReadFragment#newInstance} factory method to
+ * Use the {@link WriteOptionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ReadFragment extends Fragment {
+public class WriteOptionFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    private Map<String, String> mData;
 
-    public ReadFragment() {};
+    public WriteOptionFragment() {
+        // Required empty public constructor
+    }
 
-    public static ReadFragment newInstance() {
-        return new ReadFragment();
+    public static WriteOptionFragment newInstance() {
+        WriteOptionFragment fragment = new WriteOptionFragment();
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mData = new LinkedHashMap<String, String>();
-        mData.put("Name", "NFCTag");
-        mData.put("Class", "7D");
-        mData.put("Type", "Final Project");
-        mData.put("Progress", "Nowhere");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_read, container, false);
-        ListView listView = view.findViewById(R.id.lvData);
-        ReadingAdapter adapter = new ReadingAdapter(mData);
-        listView.setAdapter(adapter);
+        View view = inflater.inflate(R.layout.fragment_write_option, container, false);
 
+        Button btnWriteGeolocation = (Button) view.findViewById(R.id.btnWriteGeolocation);
+        btnWriteGeolocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), MapsActivity.class);
+                startActivity(i);
+            }
+        });
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -68,7 +71,7 @@ public class ReadFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(getActivity(), "Read Fragment Added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Write Fragment Added", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -92,5 +95,4 @@ public class ReadFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 }

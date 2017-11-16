@@ -1,4 +1,4 @@
-package comp7615.project.nfcmanagerui;
+package comp7615.project.nfcmanagerui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import comp7615.project.nfcmanagerui.R;
 
 /**
  * Created by danny on 11/14/2017.

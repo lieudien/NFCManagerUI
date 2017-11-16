@@ -1,4 +1,4 @@
-package comp7615.project.nfcmanagerui;
+package comp7615.project.nfcmanagerui.activities;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +8,11 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import comp7615.project.nfcmanagerui.fragments.OtherFragment;
+import comp7615.project.nfcmanagerui.R;
+import comp7615.project.nfcmanagerui.fragments.ReadFragment;
+import comp7615.project.nfcmanagerui.fragments.WriteOptionFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                     displayFragment(currentFragment);
                     return true;
                 case R.id.navigation_write:
-                    currentFragment = WriteFragment.newInstance();
+                    currentFragment = WriteOptionFragment.newInstance();
                     displayFragment(currentFragment);
                     return true;
                 case R.id.navigation_other:

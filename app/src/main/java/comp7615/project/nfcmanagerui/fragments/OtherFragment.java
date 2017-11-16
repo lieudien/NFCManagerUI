@@ -1,4 +1,4 @@
-package comp7615.project.nfcmanagerui;
+package comp7615.project.nfcmanagerui.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import comp7615.project.nfcmanagerui.R;
 
 
 /**

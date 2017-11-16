@@ -5,6 +5,17 @@
     <string name="title_other">Others</string>
     <string name="button_read">Read a Tag</string>
 
+    <!-- NFC messages -->
+    <string name="msg_write_error">Error Writing Message.</string>
+    <string name="msg_write_success">Successfully written to Tag.</string>
+    <string name="msg_write_progress">Writing to Tag...</string>
+    <string name="msg_tag_detected">NFC Tag Detected.</string>
+    <string name="msg_read_tag">Read from NFC Tag</string>
+    <string name="msg_write_tag">Write to NFC Tag</string>
+    <string name="msg_tap_tag">Tap NFC Tag to Write</string>
+    <string name="msg_click_write">Please click "Write" before tapping the NFC Tag</string>
+    <string name="hint_message">Message</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_write">WriteActivity</string>
