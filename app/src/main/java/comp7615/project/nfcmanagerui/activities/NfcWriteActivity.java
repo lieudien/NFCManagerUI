@@ -8,6 +8,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
+import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -149,16 +150,15 @@ public abstract class NfcWriteActivity extends FragmentActivity implements Dialo
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
         Log.d(TAG, "onNewIntent: " + intent.getAction());
-
         if(tag != null) {
             Toast.makeText(this, getString(R.string.msg_tag_detected), Toast.LENGTH_SHORT).show();
             Ndef ndef = Ndef.get(tag);
 
             if (isDialogDisplayed && isWrite) {
-                if (isWrite) {
-                    nfcWriteFrag = (NfcWriteFragment) getFragmentManager().findFragmentByTag(NfcWriteFragment.TAG);
-                    nfcWriteFrag.onNfcDetected(ndef, new NdefMessage(getNdefRecordToWrite() ) );
-                }
+                isWrite = false;
+                NdefMessage message = new NdefMessage(getNdefRecordToWrite());
+                nfcWriteFrag = (NfcWriteFragment) getFragmentManager().findFragmentByTag(NfcWriteFragment.TAG);
+                nfcWriteFrag.onNfcDetected(ndef, tag, message);
             }
             else {
                 Toast.makeText(this, getString(R.string.msg_click_write), Toast.LENGTH_SHORT).show();
