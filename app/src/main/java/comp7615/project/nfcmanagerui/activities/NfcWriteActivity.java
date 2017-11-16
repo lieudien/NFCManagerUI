@@ -65,10 +65,19 @@ public abstract class NfcWriteActivity extends FragmentActivity implements Dialo
      */
     protected abstract boolean validateInput();
 
+    /**
+     * Gets the content view of the child activity.
+     *
+     * @return the content view to be set by the NfcWriteActivity class
+     */
+    protected abstract int getContentView();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+
+        setContentView(getContentView() );
+
         initViews();
         initNfc();
     }

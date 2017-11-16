@@ -36,18 +36,26 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
 
     @Override
     protected NdefRecord getNdefRecordToWrite() {
+        // todo: get this from UI
         return NdefRecord.createUri("geo: 49.2578263, -123.193944");
     }
 
+    @Override
     protected boolean validateInput() {
         // todo: provide actual ui validation
         return true;
     }
 
     @Override
+    protected int getContentView() {
+        return R.layout.activity_maps;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // todo: remove -- this is required to be handled by the NfcWriteActivity
         //setContentView(R.layout.activity_maps);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
