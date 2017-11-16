@@ -40,10 +40,11 @@ public class ReadFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mData = new LinkedHashMap<String, String>();
-        mData.put("Name", "NFCTag");
-        mData.put("Class", "7D");
-        mData.put("Type", "Final Project");
-        mData.put("Progress", "Nowhere");
+        mData.put("Tag Type", "NFCTag");
+        mData.put("Technologies available", "7D");
+        mData.put("Serial number", "Final Project");
+        mData.put("ATQA", "Nowhere");
+        mData.put("SAK", "0x00");
     }
 
     @Override
