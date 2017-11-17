@@ -9,14 +9,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnRead"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_read"
-            android:drawableLeft="@drawable/ic_new_tag_black_24dp"
-            android:gravity="center_vertical|left"
-            />
+            android:id="@+id/tvMessage"
+            android:text="Message"/>
 
         <ListView
             android:layout_width="match_parent"

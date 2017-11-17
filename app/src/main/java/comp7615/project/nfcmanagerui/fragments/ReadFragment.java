@@ -2,18 +2,24 @@ package comp7615.project.nfcmanagerui.fragments;
 
 import android.content.Context;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.nfc.tech.Ndef;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import comp7615.project.nfcmanagerui.R;
+import comp7615.project.nfcmanagerui.activities.MainActivity;
 import comp7615.project.nfcmanagerui.adapters.ReadingAdapter;
 
 /**
@@ -26,8 +32,13 @@ import comp7615.project.nfcmanagerui.adapters.ReadingAdapter;
  */
 public class ReadFragment extends Fragment {
 
+    public static final String TAG = ReadFragment.class.getSimpleName();
+
     private OnFragmentInteractionListener mListener;
     private Map<String, String> mData;
+    private NfcAdapter nfcAdapter;
+    private Context context;
+    private TextView tvMessage;
 
     public ReadFragment() {};
 
@@ -38,6 +49,8 @@ public class ReadFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initNFC();
 
         mData = new LinkedHashMap<String, String>();
         mData.put("Tag Type", "NFCTag");
@@ -52,23 +65,29 @@ public class ReadFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_read, container, false);
-        ListView listView = view.findViewById(R.id.lvData);
+        initViews(view);
+
+        return view;
+    }
+
+    protected void initViews(View v) {
+        ListView listView = v.findViewById(R.id.lvData);
         ReadingAdapter adapter = new ReadingAdapter(mData);
         listView.setAdapter(adapter);
 
-        return view;
+        tvMessage = v.findViewById(R.id.tvMessage);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.context = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -97,4 +116,34 @@ public class ReadFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    protected void initNFC() {
+        nfcAdapter = NfcAdapter.getDefaultAdapter(context);
+
+        if (nfcAdapter == null) {
+            Toast.makeText(context, "This device doesn't support NFC Tag", Toast.LENGTH_SHORT).show();
+        }
+        if (!nfcAdapter.isEnabled()) {
+            Toast.makeText(context, "NFC is disabled", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "NFC is on", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onNfcDetected(Ndef ndef) {
+        readFromNFC(ndef);
+    }
+
+    private void readFromNFC(Ndef ndef) {
+        try {
+            ndef.connect();
+            NdefMessage ndefMessage = ndef.getNdefMessage();
+            String message = new String(ndefMessage.getRecords()[0].getPayload());
+            Log.d("DEBUG", "readFromNFC: " + message);
+            tvMessage.setText("NdefMessage: " + message);
+            ndef.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

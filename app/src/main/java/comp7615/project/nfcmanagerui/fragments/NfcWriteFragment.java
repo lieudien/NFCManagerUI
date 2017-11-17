@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -79,7 +80,7 @@ public class NfcWriteFragment extends DialogFragment
         writeToNfc(ndef, tag, messageToWrite);
     }
 
-    private void writeToNfc(Ndef ndef, Tag tag, NdefMessage message) {
+    private void writeToNfc(Ndef ndef, final Tag tag, NdefMessage message) {
 
         txtvMessage.setText(getString(R.string.msg_write_progress));
         Log.d("DEBUG", "writeToNfc: before check ndef");
@@ -113,32 +114,30 @@ public class NfcWriteFragment extends DialogFragment
                     }
             }
         } else {
-            Log.d("DEBUG", "ndef is null");//
-//            NdefFormatable ndefFormatable = NdefFormatable.get(tag);
-//            if (ndefFormatable != null) {
-//                Log.d("DEBUG", "ndefFormatable is not null");
-//                try {
-//                    ndefFormatable.connect();
-//                    Log.d("DEBUG", "Connect to the tag");
-//                    ndefFormatable.format(message);
-//                    Log.d("DEBUG", "Format message");
-//                }
-//                catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                finally {
-//                    try {
-//                        Log.d("DEBUG", "ndef close");
-//                        ndefFormatable.close();
-//                    }
-//                    catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            } else {
-//                Log.d("DEBUG", "ndefFormatable is null");
-//            }
+            Log.d("DEBUG", "ndef is null");
+            formatTag(tag, message);
+        }
+    }
 
+    protected void formatTag(Tag tag, NdefMessage ndefMessage) {
+        try {
+            NdefFormatable ndefFormatable = NdefFormatable.get(tag);
+            if (ndefFormatable == null) {
+                txtvMessage.setText("Tag is not ndef formattable");
+                Log.d("DEBUG", "Tag is not ndef formattable");
+            }
+            else {
+                ndefFormatable.connect();
+                ndefFormatable.format(ndefMessage);
+                ndefFormatable.close();
+                txtvMessage.setText("Tag formatted and written");
+                Log.d("DEBUG", "Tag written");
+            }
+        } catch (Exception e) {
+            Log.d("DEBUG", String.format("Exception: %s", e.getMessage()));
+        }
+        finally {
+            prgbWriteStatus.setVisibility(View.GONE);
         }
     }
 }

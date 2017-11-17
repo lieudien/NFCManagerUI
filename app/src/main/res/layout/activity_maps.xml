@@ -22,22 +22,46 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Enter a location"
-                android:id="@+id/etLocation"/>
+                android:hint="Your location"
+                android:id="@+id/etSrcLocation"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Go"
                 android:drawableLeft="@drawable/ic_add_location_black_24dp"
-                android:id="@+id/btnGo"/>
+                android:id="@+id/btnGoSrc"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout1"
+            android:orientation="horizontal"
+            android:id="@+id/layout2">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Enter the destination"
+                android:id="@+id/etDestLocation"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go"
+                android:drawableLeft="@drawable/ic_add_location_black_24dp"
+                android:id="@+id/btnGoDest"/>
 
         </LinearLayout>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/layout1"
+            android:layout_below="@id/layout2"
             android:text="Submit"
             android:id="@+id/btnSubmit"/>
 
