@@ -64,9 +64,9 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
 
         mapFragment.getMapAsync(this);
 
-        etLocation = (EditText) findViewById(R.id.etLocation);
+        etLocation = (EditText) findViewById(R.id.etDestLocation);
 
-        Button btnGo = (Button) findViewById(R.id.btnGo);
+        Button btnGo = (Button) findViewById(R.id.btnGoDest);
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

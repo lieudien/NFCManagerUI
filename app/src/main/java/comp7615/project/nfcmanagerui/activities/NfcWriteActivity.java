@@ -8,7 +8,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
-import android.nfc.tech.NfcA;
+import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -130,11 +130,15 @@ public abstract class NfcWriteActivity extends FragmentActivity implements Dialo
         IntentFilter techDetected      = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
         IntentFilter[] nfcIntentFilter = new IntentFilter[]{techDetected,tagDetected,ndefDetected};
 
+        String[][] techList = new String[][] {
+                {Ndef.class.getName()},
+                {NdefFormatable.class.getName()}
+        };
         PendingIntent pendingIntent = PendingIntent.getActivity(
-            this,0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+            this,0, new Intent(this, getClass()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING), 0);
 
         if(nfcAdapter != null)
-            nfcAdapter.enableForegroundDispatch(this, pendingIntent, nfcIntentFilter, null);
+            nfcAdapter.enableForegroundDispatch(this, pendingIntent, nfcIntentFilter, techList);
     }
 
     @Override
