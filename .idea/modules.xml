@@ -3,10 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/NFCManagerUI.iml" filepath="$PROJECT_DIR$/NFCManagerUI.iml" />
+      <module fileurl="file://C:\Users\Robert\AndroidStudioProjects\NFCManagerUI\NFCManagerUI.iml" filepath="C:\Users\Robert\AndroidStudioProjects\NFCManagerUI\NFCManagerUI.iml" />
       <module fileurl="file://C:\Users\danny\AndroidStudioProjects\COMP7615\NFCManagerUI\.idea\NFCManagerUI.iml" filepath="C:\Users\danny\AndroidStudioProjects\COMP7615\NFCManagerUI\.idea\NFCManagerUI.iml" />
       <module fileurl="file://E:\Users\r_pur\AndroidStudioProjects\NFCManagerUI\NFCManagerUI.iml" filepath="E:\Users\r_pur\AndroidStudioProjects\NFCManagerUI\NFCManagerUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://E:\Users\r_pur\AndroidStudioProjects\NFCManagerUI\app\app.iml" filepath="E:\Users\r_pur\AndroidStudioProjects\NFCManagerUI\app\app.iml" />
+      <module fileurl="file://C:\Users\Robert\AndroidStudioProjects\NFCManagerUI\app\app.iml" filepath="C:\Users\Robert\AndroidStudioProjects\NFCManagerUI\app\app.iml" />
     </modules>
   </component>
 </project>
