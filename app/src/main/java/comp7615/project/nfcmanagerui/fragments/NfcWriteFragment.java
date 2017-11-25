@@ -90,9 +90,7 @@ public class NfcWriteFragment extends DialogFragment
             try {
                 ndef.connect();
                 Log.d("DEBUG", "Connect to the tag");
-                // todo: swap to message param once tested
-                NdefRecord uriRecord = NdefRecord.createUri("https://www.google.com/maps/dir/Current+Location/49.2578263,-123.193944");
-                ndef.writeNdefMessage(new NdefMessage(uriRecord));
+                ndef.writeNdefMessage(message);
                 Log.d("DEBUG", "Finish writing to tag");
 
                 //Write Successful

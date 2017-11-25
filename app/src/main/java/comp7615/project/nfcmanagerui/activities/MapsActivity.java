@@ -27,7 +27,10 @@ import comp7615.project.nfcmanagerui.R;
 public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private EditText etLocation;
+    private EditText etSrcLocation;
+    private EditText etDstLocation;
+    private String srcLocation;
+    private String destLocation;
 
     @Override
     protected Button setWriteButton() {
@@ -36,14 +39,14 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
 
     @Override
     protected NdefRecord getNdefRecordToWrite() {
-        // todo: get this from UI
-        return NdefRecord.createUri("geo: 49.2578263, -123.193944");
+        String googleRouteUrl = "https://www.google.com/maps/dir/"+srcLocation+"/"+destLocation;
+
+        return NdefRecord.createUri(googleRouteUrl);
     }
 
     @Override
     protected boolean validateInput() {
-        // todo: provide actual ui validation
-        return true;
+        return validSourceLocation() && validDestLocation();
     }
 
     @Override
@@ -55,36 +58,14 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // todo: remove -- this is required to be handled by the NfcWriteActivity
-        //setContentView(R.layout.activity_maps);
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
 
-        etLocation = (EditText) findViewById(R.id.etDestLocation);
-
-        Button btnGo = (Button) findViewById(R.id.btnGoDest);
-        btnGo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String str = etLocation.getText().toString();
-
-                Geocoder geocoder = new Geocoder(getBaseContext());
-                List<Address> addressList = null;
-
-                try {
-                    addressList = geocoder.getFromLocationName(str, 3);
-                    if (addressList != null && !addressList.isEmpty()) {
-                        search(addressList);
-                    }
-                } catch (IOException exception) {
-                    Toast.makeText(MapsActivity.this, "Invalid location name", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        etSrcLocation = (EditText) findViewById(R.id.etSrcLocation);
+        etDstLocation = (EditText) findViewById(R.id.etDestLocation);
     }
 
 
@@ -111,14 +92,14 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
 
     }
 
-    protected void search(List<Address> addressList) {
+    protected String search(List<Address> addressList) {
         Address address = (Address) addressList.get(0);
 
-        double home_lat = address.getLatitude();
-        double home_long = address.getLongitude();
+        double latitude = address.getLatitude();
+        double longitude = address.getLongitude();
 
-        LatLng latLng = new LatLng(home_lat, home_long);
-        Toast.makeText(this, String.format("LatLng: %f %f", home_lat, home_long) , Toast.LENGTH_LONG).show();
+        LatLng latLng = new LatLng(latitude, longitude);
+        Toast.makeText(this, String.format("LatLng: %f %f", latitude, longitude) , Toast.LENGTH_LONG).show();
 
         String addressText = String.format("%s, %s", address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "", address.getCountryName());
 
@@ -127,5 +108,45 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
 
         CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        return latitude + "," + longitude;
+    }
+
+    public void onSourceLocationGoClick(View view) {
+        String userSourceLocation = etSrcLocation.getText().toString();
+        srcLocation               = getLocation(userSourceLocation);
+    }
+
+    public void onDestLocationGoClick(View view) {
+        String userDestLocation = etDstLocation.getText().toString();
+        destLocation            = getLocation(userDestLocation);
+    }
+
+    private String getLocation(String userLocation) {
+        Geocoder geocoder = new Geocoder(getBaseContext());
+        List<Address> addressList = null;
+        String result = null;
+
+        try {
+            addressList = geocoder.getFromLocationName(userLocation, 3);
+
+            if (addressList != null && !addressList.isEmpty()) {
+                result = search(addressList);
+            }
+        }
+        catch (IOException exception) {
+            Toast.makeText(MapsActivity.this, "Invalid location name", Toast.LENGTH_SHORT).show();
+        }
+
+        return result;
+    }
+
+    private boolean validSourceLocation() {
+        return srcLocation != null && srcLocation.isEmpty() == false;
+    }
+
+    private boolean validDestLocation() {
+        return destLocation != null && destLocation.isEmpty() == false;
     }
 }
+

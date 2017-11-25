@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Go"
+                android:onClick="onSourceLocationGoClick"
                 android:drawableLeft="@drawable/ic_add_location_black_24dp"
                 android:id="@+id/btnGoSrc"/>
 
@@ -53,6 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Go"
+                android:onClick="onDestLocationGoClick"
                 android:drawableLeft="@drawable/ic_add_location_black_24dp"
                 android:id="@+id/btnGoDest"/>
 
