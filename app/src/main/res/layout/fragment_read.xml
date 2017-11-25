@@ -1,25 +1,47 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ReadFragment">
 
-    <LinearLayout
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="50dp"
+        android:id="@+id/tapMessage"
+        android:text="Tap to Read NFC Tag..."/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvMessage"
-            android:text="Message"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:id="@+id/txtvSrcLoactionTitle"
+        android:hint="Starting Location"
+        android:text="Start:"
+        android:layout_below="@+id/tapMessage"
+        android:textColor="@color/black"/>
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/lvData"/>
-    </LinearLayout>
 
-</FrameLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/txtvSrcLoaction"
+        android:hint="Starting Location"
+        android:layout_below="@+id/txtvSrcLoactionTitle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:id="@+id/txtvDestLocationTitle"
+        android:hint="Starting Location"
+        android:layout_below="@+id/txtvSrcLoaction"
+        android:text="Destination:"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/txtvDestLoaction"
+        android:hint="Destination Location"
+        android:layout_below="@+id/txtvDestLocationTitle"/>
+
+</RelativeLayout>

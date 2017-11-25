@@ -1,6 +1,8 @@
 package comp7615.project.nfcmanagerui.fragments;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import comp7615.project.nfcmanagerui.R;
@@ -38,7 +41,8 @@ public class ReadFragment extends Fragment {
     private Map<String, String> mData;
     private NfcAdapter nfcAdapter;
     private Context context;
-    private TextView tvMessage;
+    private TextView txtvSrcLocation;
+    private TextView txtvDestLocation;
 
     public ReadFragment() {};
 
@@ -71,11 +75,12 @@ public class ReadFragment extends Fragment {
     }
 
     protected void initViews(View v) {
-        ListView listView = v.findViewById(R.id.lvData);
-        ReadingAdapter adapter = new ReadingAdapter(mData);
-        listView.setAdapter(adapter);
+        //ListView listView = v.findViewById(R.id.lvData);
+        //ReadingAdapter adapter = new ReadingAdapter(mData);
+        //listView.setAdapter(adapter);
 
-        tvMessage = v.findViewById(R.id.tvMessage);
+        txtvSrcLocation  = v.findViewById(R.id.txtvSrcLoaction);
+        txtvDestLocation = v.findViewById(R.id.txtvDestLoaction);
     }
 
     @Override
@@ -137,13 +142,43 @@ public class ReadFragment extends Fragment {
         try {
             ndef.connect();
             NdefMessage ndefMessage = ndef.getNdefMessage();
+            ndef.close();
             String message = new String(ndefMessage.getRecords()[0].getPayload());
             Log.d("DEBUG", "readFromNFC: " + message);
-            tvMessage.setText("NdefMessage: " + message);
-            ndef.close();
+
+            if (validMessage(message) ) {
+                String urlParts[] = message.split("/");
+                int lastIndex     = urlParts.length - 1;
+
+                // get source latitude and longitude
+                String sourceLocation[] = urlParts[lastIndex - 1].split(",");
+                double sourceLatitude   = Double.parseDouble(sourceLocation[0]);
+                double sourceLongitude  = Double.parseDouble(sourceLocation[1]);
+
+                // get destination latitude and longitude
+                String destLocation[] = urlParts[lastIndex].split(",");
+                double destLatitude   = Double.parseDouble(destLocation[0]);
+                double destLongitude  = Double.parseDouble(destLocation[1]);
+
+                // Get geo names for location coordinates
+                Geocoder geocoder = new Geocoder(getActivity());
+                List<Address> addressList = geocoder.getFromLocation(sourceLatitude, sourceLongitude, 1);
+                addressList.add(geocoder.getFromLocation(destLatitude, destLongitude, 1).get(0));
+
+                Address start = addressList.get(0);
+                Address dest  = addressList.get(1);
+
+                // Display Locations
+                txtvSrcLocation.setText(start.getAddressLine(0));
+                txtvDestLocation.setText(dest.getAddressLine(0));
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private boolean validMessage(String payload) {
+        return payload != null && payload.isEmpty() == false;
     }
 }
