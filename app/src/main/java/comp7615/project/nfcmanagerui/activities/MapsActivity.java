@@ -26,6 +26,7 @@ import comp7615.project.nfcmanagerui.R;
 
 public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback {
 
+    private final String CURRENT_LOCATION = "current location";
     private GoogleMap mMap;
     private EditText etSrcLocation;
     private EditText etDstLocation;
@@ -114,12 +115,62 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
 
     public void onSourceLocationGoClick(View view) {
         String userSourceLocation = etSrcLocation.getText().toString();
-        srcLocation               = getLocation(userSourceLocation);
+
+        setSrcLocationChoice(userSourceLocation);
     }
 
     public void onDestLocationGoClick(View view) {
         String userDestLocation = etDstLocation.getText().toString();
-        destLocation            = getLocation(userDestLocation);
+
+        setDestLocationChoice(userDestLocation);
+    }
+
+    private void setDestLocationChoice(String destChoice) {
+        destLocation = getLocation(destChoice);
+
+        // set found destination
+        if (validDestLocation() ) {
+            String displayName = getLocationName(destLocation);
+            etDstLocation.setText(displayName);
+        }
+    }
+
+    private void setSrcLocationChoice(String srcChoice) {
+        // set found source
+        if (srcChoice.equalsIgnoreCase(CURRENT_LOCATION) ) {
+            srcLocation = "current+location";
+            etSrcLocation.setText(CURRENT_LOCATION);
+        }
+        else {
+            srcLocation = getLocation(srcChoice);
+
+            if (validSourceLocation() ) {
+                String displayName = getLocationName(destLocation);
+                etSrcLocation.setText(displayName);
+            }
+        }
+    }
+
+    private String getLocationName(String locationCoords) {
+        // get latitude and longitude
+        String locationName = null;
+        Address addr;
+        String coords[]     = locationCoords.split(",");
+        double latitude     = Double.parseDouble(coords[0]);
+        double longitude    = Double.parseDouble(coords[1]);
+
+        // Get geo names for location coordinates
+        Geocoder geocoder = new Geocoder(this);
+        try {
+            List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+            addr         = addressList.get(0);
+            locationName = addr.getAddressLine(0);
+        }
+        catch (IOException ex) {
+            Toast.makeText(MapsActivity.this, "Invalid location name", Toast.LENGTH_SHORT).show();
+        }
+
+        return locationName;
     }
 
     private String getLocation(String userLocation) {
@@ -142,11 +193,11 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
     }
 
     private boolean validSourceLocation() {
-        return srcLocation != null && srcLocation.isEmpty() == false;
+        return srcLocation != null && !srcLocation.isEmpty();
     }
 
     private boolean validDestLocation() {
-        return destLocation != null && destLocation.isEmpty() == false;
+        return destLocation != null && !destLocation.isEmpty();
     }
 }
 

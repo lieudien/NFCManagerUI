@@ -149,11 +149,24 @@ public class ReadFragment extends Fragment {
             if (validMessage(message) ) {
                 String urlParts[] = message.split("/");
                 int lastIndex     = urlParts.length - 1;
+                String startLoc   = urlParts[lastIndex - 1];
+                String destLoc    = urlParts[lastIndex];
+
+                // Get geo names for location coordinates
+                Geocoder geocoder = new Geocoder(getActivity());
 
                 // get source latitude and longitude
-                String sourceLocation[] = urlParts[lastIndex - 1].split(",");
-                double sourceLatitude   = Double.parseDouble(sourceLocation[0]);
-                double sourceLongitude  = Double.parseDouble(sourceLocation[1]);
+                if (startLoc.equalsIgnoreCase("current+location")) {
+                    txtvSrcLocation.setText("current location");
+                }
+                else {
+                    String sourceLocation[] = urlParts[lastIndex - 1].split(",");
+                    double sourceLatitude = Double.parseDouble(sourceLocation[0]);
+                    double sourceLongitude = Double.parseDouble(sourceLocation[1]);
+
+                    List<Address> addressList = geocoder.getFromLocation(sourceLatitude, sourceLongitude, 1);
+                    Address start             = addressList.get(0);
+                }
 
                 // get destination latitude and longitude
                 String destLocation[] = urlParts[lastIndex].split(",");
@@ -161,20 +174,15 @@ public class ReadFragment extends Fragment {
                 double destLongitude  = Double.parseDouble(destLocation[1]);
 
                 // Get geo names for location coordinates
-                Geocoder geocoder = new Geocoder(getActivity());
-                List<Address> addressList = geocoder.getFromLocation(sourceLatitude, sourceLongitude, 1);
-                addressList.add(geocoder.getFromLocation(destLatitude, destLongitude, 1).get(0));
+                List<Address> addressList = geocoder.getFromLocation(destLatitude, destLongitude, 1);
+                Address dest  = addressList.get(0);
 
-                Address start = addressList.get(0);
-                Address dest  = addressList.get(1);
-
-                // Display Locations
-                txtvSrcLocation.setText(start.getAddressLine(0));
                 txtvDestLocation.setText(dest.getAddressLine(0));
             }
-
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             ex.printStackTrace();
+            Toast.makeText(context, "Unable to read tag. It may not have been written to by this app yet.", Toast.LENGTH_SHORT).show();
         }
     }
 

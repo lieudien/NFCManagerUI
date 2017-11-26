@@ -17,7 +17,7 @@
             android:drawableLeft="@drawable/ic_map_black_24dp"
             android:gravity="center_vertical|left"/>
 
-        <Button
+       <!-- <Button
             android:id="@+id/btnWriteTreasure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Write a Toggle function"
-            android:gravity="center_vertical|left"/>
+            android:gravity="center_vertical|left"/> -->
     </LinearLayout>
 
 </FrameLayout>
