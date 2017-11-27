@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Your location"
+                android:hint="Starting Location"
                 android:id="@+id/etSrcLocation"/>
 
             <!-- Triggers validation for the current input source location -->
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Enter the destination"
+                android:hint="Destination Location"
                 android:id="@+id/etDestLocation"/>
             <!-- Triggers validation for the current input destination location -->
             <Button

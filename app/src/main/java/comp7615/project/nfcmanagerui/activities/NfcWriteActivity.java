@@ -175,7 +175,7 @@ public abstract class NfcWriteActivity extends FragmentActivity implements IDial
 
         Log.d(TAG, "onNewIntent: " + intent.getAction());
         if(tag != null) {
-            Toast.makeText(this, getString(R.string.msg_tag_detected), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, getString(R.string.msg_tag_detected), Toast.LENGTH_SHORT).show();
             Ndef ndef = Ndef.get(tag);
 
             if (isDialogDisplayed && isWrite) {

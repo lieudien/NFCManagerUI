@@ -13,7 +13,7 @@
     <string name="msg_read_tag">Read from NFC Tag</string>
     <string name="msg_write_tag">Write to NFC Tag</string>
     <string name="msg_tap_tag">Tap NFC Tag to Write</string>
-    <string name="msg_click_write">Please click "Write" before tapping the NFC Tag</string>
+    <string name="msg_click_write">Please click "Submit" before tapping the NFC Tag</string>
     <string name="hint_message">Message</string>
 
     <!-- TODO: Remove or change this placeholder text -->
