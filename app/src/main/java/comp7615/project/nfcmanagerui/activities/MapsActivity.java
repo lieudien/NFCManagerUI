@@ -183,6 +183,14 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Gets the location name for the specified coordinates. The coordinates must be in the format
+     * "latitude,longitude"
+     *
+     * @param locationCoords coordinates in proper format to find name for
+     *
+     * @return name found for location or null on failure to find a location
+     */
     private String getLocationName(String locationCoords) {
         // get latitude and longitude
         String locationName = null;

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context="comp7615.project.nfcmanagerui.activities.MainActivity">
 
+    <!-- Layout to hold the active option (read, write, other) -->
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -17,6 +18,7 @@
         app:layout_constraintBottom_toTopOf="@+id/navigation">
     </FrameLayout>
 
+    <!-- Navigation for the Read, Write, Other options -->
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"

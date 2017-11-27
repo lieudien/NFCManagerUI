@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <!-- Triggers Route Mapper option for NFC writing -->
         <Button
             android:id="@+id/btnWriteGeolocation"
             android:layout_width="match_parent"
