@@ -73,7 +73,7 @@ public class WriteOptionFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(getActivity(), "Write Fragment Added", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getActivity(), "Write Fragment Added", Toast.LENGTH_SHORT).show();
         }
     }
 

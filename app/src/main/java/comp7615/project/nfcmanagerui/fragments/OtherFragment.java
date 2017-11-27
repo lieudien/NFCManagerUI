@@ -66,7 +66,7 @@ public class OtherFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(getActivity(), "Other Fragment Added", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getActivity(), "Other Fragment Added", Toast.LENGTH_SHORT).show();
         }
     }
 

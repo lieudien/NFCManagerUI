@@ -96,7 +96,7 @@ public class ReadFragment extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            Toast.makeText(getActivity(), "Read Fragment Added", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Read Fragment Added", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -125,7 +125,7 @@ public class ReadFragment extends Fragment {
         nfcAdapter = NfcAdapter.getDefaultAdapter(context);
 
         if (nfcAdapter == null) {
-            Toast.makeText(context, "This device doesn't support NFC Tag", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, "This device doesn't support NFC Tag", Toast.LENGTH_SHORT).show();
         }
         if (!nfcAdapter.isEnabled()) {
             Toast.makeText(context, "NFC is disabled", Toast.LENGTH_SHORT).show();
@@ -138,6 +138,10 @@ public class ReadFragment extends Fragment {
         readFromNFC(ndef);
     }
 
+    /**
+     * Reads in the data. If it can't be read by
+     * @param ndef
+     */
     private void readFromNFC(Ndef ndef) {
         try {
             ndef.connect();
@@ -169,7 +173,7 @@ public class ReadFragment extends Fragment {
                 }
 
                 // get destination latitude and longitude
-                String destLocation[] = urlParts[lastIndex].split(",");
+                String destLocation[] = destLoc.split(",");
                 double destLatitude   = Double.parseDouble(destLocation[0]);
                 double destLongitude  = Double.parseDouble(destLocation[1]);
 

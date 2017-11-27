@@ -12,7 +12,7 @@ package comp7615.project.nfcmanagerui.listeners;
  *
  * Revisions:
  */
-public interface DialogListener
+public interface IDialogListener
 {
     void onDialogDisplayed();
     void onDialogDismissed();

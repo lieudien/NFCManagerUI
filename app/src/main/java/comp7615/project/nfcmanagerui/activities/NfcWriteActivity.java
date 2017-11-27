@@ -18,14 +18,22 @@ import android.widget.Toast;
 
 import comp7615.project.nfcmanagerui.R;
 import comp7615.project.nfcmanagerui.fragments.NfcWriteFragment;
-import comp7615.project.nfcmanagerui.listeners.DialogListener;
+import comp7615.project.nfcmanagerui.listeners.IDialogListener;
 
 /**
  * Created by r_pur on 11/15/2017.
  */
 
-//todo: create activity to manage using NfcWriteFragment to write data to NFC tag
-public abstract class NfcWriteActivity extends FragmentActivity implements DialogListener
+
+/**
+ * Manages the fragment to write to an NFC tag. Child classes must provide logic to:
+ *  - the id for the button to bring up the write to nfc popup
+ *  - the record to be written to the NFC tag
+ *  - validation for user input
+ *  - the content view of the child class to be set (note this is needed in order to get the
+ *    button object that will bring up the NFC tag writing popup
+ */
+public abstract class NfcWriteActivity extends FragmentActivity implements IDialogListener
 {
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -97,6 +105,9 @@ public abstract class NfcWriteActivity extends FragmentActivity implements Dialo
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
     }
 
+    /**
+     * Upon valid input, shows the NFC tag tap popup.
+     */
     private void showWriteFragment() {
         if (validateInput()) {
             isWrite = true;
@@ -122,6 +133,9 @@ public abstract class NfcWriteActivity extends FragmentActivity implements Dialo
         isWrite           = false;
     }
 
+    /**
+     * Handle how to accept an NFC tag when resumed.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -149,6 +163,12 @@ public abstract class NfcWriteActivity extends FragmentActivity implements Dialo
             nfcAdapter.disableForegroundDispatch(this);
     }
 
+    /**
+     * Handle a tag being tapped. The tag will be handled only if the NFC dialog is displayed.
+     * If the NFC dialog is being displayed, coordinate writing to the NFC tag.
+     *
+     * @param intent intent carrying the NFC tag tap.
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);

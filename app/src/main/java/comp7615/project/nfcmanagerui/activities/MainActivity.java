@@ -27,6 +27,9 @@ import comp7615.project.nfcmanagerui.R;
 import comp7615.project.nfcmanagerui.fragments.ReadFragment;
 import comp7615.project.nfcmanagerui.fragments.WriteOptionFragment;
 
+/**
+ * Handles the display of each fragment (read, write, other)
+ */
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -119,6 +122,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * handles reading an nfc tag
+     *
+     * @param intent
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);

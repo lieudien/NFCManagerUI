@@ -24,13 +24,27 @@ import java.util.List;
 
 import comp7615.project.nfcmanagerui.R;
 
+/**
+ * Activity to manage user input and location lookup to be written to an NFC tag
+ */
 public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback {
 
+    /** accepted non google map lookup string */
     private final String CURRENT_LOCATION = "current location";
+
+    /** Google Map to display chosen locations */
     private GoogleMap mMap;
+
+    /** text box for the user to choose their source location */
     private EditText etSrcLocation;
+
+    /** text box for the user to choose their destination location */
     private EditText etDstLocation;
+
+    /** location value to store as the starting google map location for a route */
     private String srcLocation;
+
+    /** location value to store as the destination google map location for a route */
     private String destLocation;
 
     @Override
@@ -65,6 +79,7 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
 
         mapFragment.getMapAsync(this);
 
+        // grab user input objects
         etSrcLocation = (EditText) findViewById(R.id.etSrcLocation);
         etDstLocation = (EditText) findViewById(R.id.etDestLocation);
     }
@@ -93,6 +108,35 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * Sets the startingw location choice
+     *
+     * @param view
+     */
+    public void onSourceLocationGoClick(View view) {
+        String userSourceLocation = etSrcLocation.getText().toString();
+
+        setSrcLocationChoice(userSourceLocation);
+    }
+
+    /**
+     * Sets the destination location choice
+     *
+     * @param view
+     */
+    public void onDestLocationGoClick(View view) {
+        String userDestLocation = etDstLocation.getText().toString();
+
+        setDestLocationChoice(userDestLocation);
+    }
+
+    /**
+     * Searches for the first address in the address list. If found it will return the location.
+     *
+     * @param addressList - list with address to obtain
+     *
+     * @return - lat/long in the format [double,double]
+     */
     protected String search(List<Address> addressList) {
         Address address = (Address) addressList.get(0);
 
@@ -111,18 +155,6 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         return latitude + "," + longitude;
-    }
-
-    public void onSourceLocationGoClick(View view) {
-        String userSourceLocation = etSrcLocation.getText().toString();
-
-        setSrcLocationChoice(userSourceLocation);
-    }
-
-    public void onDestLocationGoClick(View view) {
-        String userDestLocation = etDstLocation.getText().toString();
-
-        setDestLocationChoice(userDestLocation);
     }
 
     private void setDestLocationChoice(String destChoice) {
@@ -173,6 +205,13 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
         return locationName;
     }
 
+    /**
+     * Attempts to get the location in the format [double,double].
+     *
+     * @param userLocation name of the location to get coordinates for.
+     *
+     * @return the locations lat/long in the explained format or null if no location was found.
+     */
     private String getLocation(String userLocation) {
         Geocoder geocoder = new Geocoder(getBaseContext());
         List<Address> addressList = null;
@@ -193,7 +232,7 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
     }
 
     /**
-     * Validates the destination location is a valid latitude and longitude.
+     * Validates the source location is a valid latitude and longitude or equals "current location"
      *
      * @return True if valid, false otherwise
      */
@@ -221,6 +260,13 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
         return validateLocation(destLocation);
     }
 
+    /**
+     * Validates a location string in the format [double],[double].
+     *
+     * @param location - location to validate for proper format
+     *
+     * @return true if the location is in valid format. false otherwise.
+     */
     private boolean validateLocation(String location) {
         boolean isValid = false;
 

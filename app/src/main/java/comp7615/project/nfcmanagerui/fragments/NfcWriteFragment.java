@@ -3,34 +3,28 @@ package comp7615.project.nfcmanagerui.fragments;
 
 import android.app.DialogFragment;
 import android.content.Context;
-import android.nfc.FormatException;
 import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
-import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
 import comp7615.project.nfcmanagerui.R;
 import comp7615.project.nfcmanagerui.activities.NfcWriteActivity;
-import comp7615.project.nfcmanagerui.listeners.DialogListener;
+import comp7615.project.nfcmanagerui.listeners.IDialogListener;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link NfcWriteFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Handles the actual writing of an NFC tag. If wanted attach an IDialogListener to the implementing
+ * activity to handle what to do when they dialog popup is shown/hidden
  */
 public class NfcWriteFragment extends DialogFragment
 {
@@ -43,7 +37,7 @@ public class NfcWriteFragment extends DialogFragment
 
     private TextView txtvMessage;
     private ProgressBar prgbWriteStatus;
-    private DialogListener nfcDialogListener;
+    private IDialogListener nfcDialogListener;
 
     @Nullable
     @Override
@@ -59,6 +53,9 @@ public class NfcWriteFragment extends DialogFragment
         prgbWriteStatus = (ProgressBar) view.findViewById(R.id.progress);
     }
 
+    /**
+     * Let listener activity know dialog has been shown.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -67,6 +64,9 @@ public class NfcWriteFragment extends DialogFragment
         nfcDialogListener.onDialogDisplayed();
     }
 
+    /**
+     * Let listener activity know dialog has been dismissed.
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -74,12 +74,25 @@ public class NfcWriteFragment extends DialogFragment
         nfcDialogListener.onDialogDismissed();
     }
 
+    /**
+     * Show spinner wheel showing work in progress.
+     *
+     * @param tag - tag to format
+     * @param messageToWrite - message to format tag with
+     */
     public void onNfcDetected(Ndef ndef, Tag tag, NdefMessage messageToWrite) {
 
         prgbWriteStatus.setVisibility(View.VISIBLE);
         writeToNfc(ndef, tag, messageToWrite);
     }
 
+    /**
+     * Attempts to write to a tag in the NDEF format, if unable to NDEFORMATABLE will be attempted.
+     * To be used if a tag is not already NDEF tech.
+     *
+     * @param tag - tag to format
+     * @param message - message to format tag with
+     */
     private void writeToNfc(Ndef ndef, final Tag tag, NdefMessage message) {
 
         txtvMessage.setText(getString(R.string.msg_write_progress));
@@ -117,6 +130,12 @@ public class NfcWriteFragment extends DialogFragment
         }
     }
 
+    /**
+     * Formats a tag. To be used if a tag is not already NDEF tech.
+     *
+     * @param tag - tag to format
+     * @param ndefMessage - message to format tag with
+     */
     protected void formatTag(Tag tag, NdefMessage ndefMessage) {
         try {
             NdefFormatable ndefFormatable = NdefFormatable.get(tag);
