@@ -136,7 +136,7 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
     }
 
     private void setSrcLocationChoice(String srcChoice) {
-        // set found source
+        // in this case, the src is valid
         if (srcChoice.equalsIgnoreCase(CURRENT_LOCATION) ) {
             srcLocation = "current+location";
             etSrcLocation.setText(CURRENT_LOCATION);
@@ -192,12 +192,54 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
         return result;
     }
 
+    /**
+     * Validates the destination location is a valid latitude and longitude.
+     *
+     * @return True if valid, false otherwise
+     */
     private boolean validSourceLocation() {
-        return srcLocation != null && !srcLocation.isEmpty();
+        boolean isValid = false;
+
+        if (srcLocation != null && srcLocation.equalsIgnoreCase(CURRENT_LOCATION) ) {
+            isValid = true;
+        }
+
+        // Location is not current location and needs further validation
+        if (!isValid) {
+            isValid = validateLocation(srcLocation);
+        }
+
+        return isValid;
     }
 
+    /**
+     * Validates the destination location is a valid latitude and longitude.
+     *
+     * @return True if valid, false otherwise
+     */
     private boolean validDestLocation() {
-        return destLocation != null && !destLocation.isEmpty();
+        return validateLocation(destLocation);
+    }
+
+    private boolean validateLocation(String location) {
+        boolean isValid = false;
+
+        if (location != null && !location.isEmpty() ) {
+            String coords[] = location.split(",");
+
+            if (coords.length == 2) {
+                try {
+                    double latitude = Double.parseDouble(coords[0]);
+                    double longitude = Double.parseDouble(coords[1]);
+
+                    isValid = true;
+                }
+                catch (Exception ex) {
+                    Toast.makeText(MapsActivity.this, "Invalid location entered.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        return isValid;
     }
 }
 
