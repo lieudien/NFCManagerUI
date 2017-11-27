@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         if (!nfcAdapter.isEnabled()) {
             Toast.makeText(this, "NFC is disabled", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "NFC is on", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "NFC is on", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -139,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
                     readFragment.onNfcDetected(ndef);
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    isReading = false;
                 }
             }
         }

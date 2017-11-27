@@ -128,9 +128,9 @@ public class ReadFragment extends Fragment {
            // Toast.makeText(context, "This device doesn't support NFC Tag", Toast.LENGTH_SHORT).show();
         }
         if (!nfcAdapter.isEnabled()) {
-            Toast.makeText(context, "NFC is disabled", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "NFC is disabled", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "NFC is on", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "NFC is on", Toast.LENGTH_SHORT).show();
         }
     }
 
