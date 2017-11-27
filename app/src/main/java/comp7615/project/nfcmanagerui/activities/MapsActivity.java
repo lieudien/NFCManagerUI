@@ -177,7 +177,7 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
             srcLocation = getLocation(srcChoice);
 
             if (validSourceLocation() ) {
-                String displayName = getLocationName(destLocation);
+                String displayName = getLocationName(srcLocation);
                 etSrcLocation.setText(displayName);
             }
         }

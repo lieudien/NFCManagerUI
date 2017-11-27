@@ -171,6 +171,8 @@ public class ReadFragment extends Fragment {
 
                     List<Address> addressList = geocoder.getFromLocation(sourceLatitude, sourceLongitude, 1);
                     Address start             = addressList.get(0);
+
+                    txtvSrcLocation.setText(start.getAddressLine(0));
                 }
 
                 // get destination latitude and longitude
