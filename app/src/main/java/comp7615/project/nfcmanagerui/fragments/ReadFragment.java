@@ -139,7 +139,8 @@ public class ReadFragment extends Fragment {
     }
 
     /**
-     * Reads in the data. If it can't be read by
+     * Reads in the data. If it can't be read an error is displayed.
+     *
      * @param ndef
      */
     private void readFromNFC(Ndef ndef) {
