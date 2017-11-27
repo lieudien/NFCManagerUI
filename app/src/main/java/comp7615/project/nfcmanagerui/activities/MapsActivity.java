@@ -144,7 +144,7 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
         double longitude = address.getLongitude();
 
         LatLng latLng = new LatLng(latitude, longitude);
-        Toast.makeText(this, String.format("LatLng: %f %f", latitude, longitude) , Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, String.format("LatLng: %f %f", latitude, longitude) , Toast.LENGTH_LONG).show();
 
         String addressText = String.format("%s, %s", address.getMaxAddressLineIndex() > 0 ? address.getAddressLine(0) : "", address.getCountryName());
 
