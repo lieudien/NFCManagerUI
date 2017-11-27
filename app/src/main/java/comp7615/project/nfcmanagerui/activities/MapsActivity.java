@@ -32,6 +32,9 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
     /** accepted non google map lookup string */
     private final String CURRENT_LOCATION = "current location";
 
+    /** Value to use as start locaton when current location is selected */
+    private final String URL_CURRENT_LOCATION = "current+location";
+
     /** Google Map to display chosen locations */
     private GoogleMap mMap;
 
@@ -170,7 +173,7 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
     private void setSrcLocationChoice(String srcChoice) {
         // in this case, the src is valid
         if (srcChoice.equalsIgnoreCase(CURRENT_LOCATION) ) {
-            srcLocation = "current+location";
+            srcLocation = URL_CURRENT_LOCATION;
             etSrcLocation.setText(CURRENT_LOCATION);
         }
         else {
@@ -247,7 +250,7 @@ public class MapsActivity extends NfcWriteActivity implements OnMapReadyCallback
     private boolean validSourceLocation() {
         boolean isValid = false;
 
-        if (srcLocation != null && srcLocation.equalsIgnoreCase(CURRENT_LOCATION) ) {
+        if (srcLocation != null && srcLocation.equalsIgnoreCase(URL_CURRENT_LOCATION) ) {
             isValid = true;
         }
 
